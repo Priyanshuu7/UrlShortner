@@ -1,7 +1,6 @@
 const express = require("express");
 const urlRoute = require("./routes/url");
 const { connectTomongoDb } = require("./connect");
-const URL = require("./models/url"); // Ensure correct case
 
 const app = express();
 const PORT = 3001;
