@@ -10,6 +10,8 @@ const router = express.Router();
 
 // for home route //
 router.post("/", handleGenNewShortUrl);
+
+// for short id route //
 router.get("/:shortId", handleGetByShortIdAndUpdate);
 router.get("/analytics/:shortId", handleGetAnalytics);
 
