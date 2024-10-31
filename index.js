@@ -6,6 +6,8 @@ const URL = require("./models/url");
 const app = express();
 const PORT = 3001;
 
+
+// code for ejs //
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
