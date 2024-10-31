@@ -16,6 +16,8 @@ app.get("/test", async (req, res) => {
   return res.render("home", { urls: allUrls });
 });
 
+
+// code for mongodb //
 connectTomongoDb("mongodb://localhost:27017/urlshortner")
   .then(() => {
     console.log("MongoDB connected");
