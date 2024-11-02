@@ -14,5 +14,4 @@ router.get("/:shortId", handleGetByShortIdAndUpdate);
 
 // for analytics route //
 router.get("/analytics/:shortId", handleGetAnalytics);
-
 module.exports = router;
