@@ -6,16 +6,16 @@ const URL = require("./models/url");
 const app = express();
 const PORT = 3001;
 
-
 // code for ejs //
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
+
+// code for test route //
 app.get("/test", async (req, res) => {
   const allUrls = await URL.find({});
   return res.render("home", { urls: allUrls });
 });
-
 
 // code for mongodb //
 connectTomongoDb("mongodb://localhost:27017/urlshortner")
@@ -26,11 +26,14 @@ connectTomongoDb("mongodb://localhost:27017/urlshortner")
     console.error("Failed to connect to MongoDB", err);
   });
 
+// middleware// 
 app.use(express.json());
 
+// routes//
 app.use("/url", urlRoute);
 app.get("/url/:shortId", urlRoute);
 
+// server listen//
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
