@@ -10,7 +10,6 @@ const PORT = 3001;
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
-
 // code for test route //
 app.get("/test", async (req, res) => {
   const allUrls = await URL.find({});
@@ -26,13 +25,13 @@ connectTomongoDb("mongodb://localhost:27017/urlshortner")
     console.error("Failed to connect to MongoDB", err);
   });
 
-// middleware// 
+// middleware//
 app.use(express.json());
 
 //home route//
 app.use("/url", urlRoute);
 
-
+// short id route//
 app.get("/url/:shortId", urlRoute);
 
 // server listen//
