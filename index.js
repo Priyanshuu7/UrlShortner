@@ -29,8 +29,10 @@ connectTomongoDb("mongodb://localhost:27017/urlshortner")
 // middleware// 
 app.use(express.json());
 
-// routes//
+//home route//
 app.use("/url", urlRoute);
+
+
 app.get("/url/:shortId", urlRoute);
 
 // server listen//
