@@ -22,6 +22,7 @@ async function handleGetByShortIdAndUpdate(req, res) {
   );
   res.redirect(entry.redirectUrl);
 }
+// handle logic //
 async function handleGetAnalytics(req, res) {
   const shortId = req.params.shortId;
   const result = await URL.findOne({ shortId });
