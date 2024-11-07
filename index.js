@@ -12,6 +12,8 @@ const userRoute = require("./routes/user");
 const app = express();
 const PORT = 8000;
 
+//db connectiion //
+
 connectToMongoDB(
   process.env.MONGODB ?? "mongodb://localhost:27017/UrlShortner"
 ).then(() => console.log("Mongodb connected"));
