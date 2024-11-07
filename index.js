@@ -13,10 +13,10 @@ const app = express();
 const PORT = 8000;
 
 //db connectiion //
-
 connectToMongoDB(
   process.env.MONGODB ?? "mongodb://localhost:27017/UrlShortner"
 ).then(() => console.log("Mongodb connected"));
+
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
