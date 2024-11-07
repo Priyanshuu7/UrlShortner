@@ -1,40 +1,47 @@
 const express = require("express");
-const urlRoute = require("./routes/url");
 const path = require("path");
-const { connectTomongoDb } = require("./connect");
+const cookieParser = require("cookie-parser");
+const { connectToMongoDB } = require("./connect");
+const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
 const URL = require("./models/url");
-const app = express();
-const PORT = 3001;
 
-// code for ejs //
+const urlRoute = require("./routes/url");
+const staticRoute = require("./routes/staticRouter");
+const userRoute = require("./routes/user");
+
+const app = express();
+const PORT = 8001;
+
+connectToMongoDB(
+  process.env.MONGODB ?? "mongodb://localhost:27017/short-url"
+).then(() => console.log("Mongodb connected"));
+
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
-// code for test route //
-app.get("/test", async (req, res) => {
-  const allUrls = await URL.find({});
-  return res.render("home", { urls: allUrls });
-});
-
-// code for mongodb //
-connectTomongoDb("mongodb://localhost:27017/urlshortner")
-  .then(() => {
-    console.log("MongoDB connected");
-  })
-  .catch((err) => {
-    console.error("Failed to connect to MongoDB", err);
-  });
-
-// middleware//
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-//home route//
-app.use("/url", urlRoute);
+app.use("/url", restrictToLoggedinUserOnly, urlRoute);
+app.use("/user", userRoute);
+app.use("/", checkAuth, staticRoute);
 
-// short id route//
-app.get("/url/:shortId", urlRoute);
-
-// server listen//
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.get("/url/:shortId", async (req, res) => {
+  const shortId = req.params.shortId;
+  const entry = await URL.findOneAndUpdate(
+    {
+      shortId,
+    },
+    {
+      $push: {
+        visitHistory: {
+          timestamp: Date.now(),
+        },
+      },
+    }
+  );
+  res.redirect(entry.redirectURL);
 });
+
+app.listen(PORT, () => console.log(`Server Started at PORT:${PORT}`));
