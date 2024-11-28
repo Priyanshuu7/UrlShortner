@@ -8,6 +8,7 @@ const urlRoute = require("./routes/url");
 const staticRoute = require("./routes/staticRouter");
 const userRoute = require("./routes/user");
 
+// expresss  vars //
 const app = express();
 const PORT = 8000;
 
